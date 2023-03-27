@@ -10,11 +10,7 @@ export default defineConfig(({ command, mode }) => {
   return {
     plugins: [react(), eslint()],
     server: {
-      port: parseInt(env.VITE_PORT || '3005'),
-    },
-    // vite config
-    define: {
-      __APP_ENV__: env.APP_ENV,
+      port: parseInt(env.PORT || '3000'),
     },
   }
 })
