@@ -15,6 +15,22 @@ Before you begin, ensure you have met the following requirements:
 
 ## Installation and Setup
 
+To install and setup the project, follow these steps:
+
+Use degit to scaffold your project based on this template.
+
+```sh
+npx degit josenaldo/vite-react-minimal-template my-project
+```
+
+Where `my-project` is the name of your project.
+
+Go to the project directory.
+
+```sh
+cd my-project
+```
+
 Install all dependencies of the project. Must be run once before other scripts, right after the clone or download.
 
 ```sh
