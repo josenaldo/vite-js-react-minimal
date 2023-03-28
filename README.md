@@ -20,7 +20,7 @@ To install and setup the project, follow these steps:
 Use degit to scaffold your project based on this template.
 
 ```sh
-npx degit josenaldo/vite-react-minimal-template my-project
+npx degit josenaldo/vite-js-react-minimal my-project
 ```
 
 Where `my-project` is the name of your project.
