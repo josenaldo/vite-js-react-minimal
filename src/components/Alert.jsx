@@ -28,8 +28,8 @@ const Alert = ({ message, setMessage }) => {
   }
 
   return (
-    <div className={`alert alert-${message.type}`}>
-      <span className="close-btn" onClick={closeAlert}>
+    <div className={`alert alert-${message.type}`} role="alert">
+      <span className="close-btn" onClick={closeAlert} role="button">
         &times;
       </span>
       <p className="alert-title">{message.content}</p>
