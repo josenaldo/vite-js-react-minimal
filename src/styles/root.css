@@ -1,10 +1,5 @@
 /* Purple Dark scheme*/
-[data-theme='dark'] {
-  /* --primary: #7c4dff;
-  --primary-hover: #6a40e0;
-  --primary-focus: rgba(124, 77, 255, 0.25);
-  --primary-inverse: #fff; */
-
+:root {
   --primary: #b39ddb;
   --primary-text: #7b5ea7;
   --primary-hover: #9e88cc;

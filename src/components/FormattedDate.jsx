@@ -12,7 +12,7 @@ import { utcToZonedTime } from 'date-fns-tz'
  * @param {Object} props - The props object.
  * @param {string} props.dateString - The ISO 8601 date string to format and display.
  *
- * @returns {JSX.Element} - The rendered <time> element containing the formatted date.
+ * @returns {JSX.Element} - The rendered <time> element containing the formatted date, or null if no dateString is provided.
  *
  * @example
  * <FormattedDate dateString="2022-03-17T14:30:00.000Z" />

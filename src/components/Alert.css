@@ -4,7 +4,7 @@
   margin-bottom: 1rem;
 }
 
-.close-btn {
+.close-button {
   margin-left: 15px;
   font-weight: bold;
   float: right;
@@ -14,17 +14,17 @@
   transition: 0.3s;
 }
 
-.close-btn:hover {
+.close-button:hover {
   color: rgba(0, 0, 0, 0.5) !important;
   transform: scale(1.2) !important;
   transition: 0.3s;
 }
 
-.close-btn:focus {
+.close-button:focus {
   outline: none;
 }
 
-.close-btn:active {
+.close-button:active {
   transition: 0.3s;
   transform: scale(0.9) !important;
 }

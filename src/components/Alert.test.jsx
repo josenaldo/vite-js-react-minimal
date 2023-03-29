@@ -42,10 +42,12 @@ describe('<Alert />', () => {
       content: 'This is an info message',
     }
 
-    render(<Alert message={message} setMessage={setMessage} />)
+    const { container } = render(
+      <Alert message={message} setMessage={setMessage} />
+    )
 
     const user = userEvent.setup()
-    const button = screen.getByRole('button')
+    const button = container.querySelector('.close-button')
     await user.click(button)
 
     expect(setMessage).toHaveBeenCalledWith(null)
