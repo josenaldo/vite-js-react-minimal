@@ -18,9 +18,17 @@ import { utcToZonedTime } from 'date-fns-tz'
  * <FormattedDate dateString="2022-03-17T14:30:00.000Z" />
  */
 const FormattedDate = ({ dateString }) => {
+  if (!dateString) {
+    return null
+  }
+
   const date = utcToZonedTime(parseISO(dateString), 'America/Sao_Paulo')
 
-  return <time dateTime={dateString}>{format(date, 'dd/MM/yyyy hh:mm')}</time>
+  return (
+    <time dateTime={dateString} role="time">
+      {format(date, 'dd/MM/yyyy hh:mm')}
+    </time>
+  )
 }
 
 FormattedDate.propTypes = {
