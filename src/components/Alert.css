@@ -43,6 +43,15 @@
   margin-top: 0.5rem;
 }
 
+.alert-info {
+  background-color: var(--info-background);
+}
+.alert-info p,
+.alert-info span,
+.alert-info li {
+  color: var(--info-text) !important;
+}
+
 .alert-success {
   background-color: var(--success-background);
 }
@@ -50,6 +59,15 @@
 .alert-success span,
 .alert-success li {
   color: var(--success-text) !important;
+}
+
+.alert-warning {
+  background-color: var(--warning-background);
+}
+.alert-warning p,
+.alert-warning span,
+.alert-warning li {
+  color: var(--warning-text) !important;
 }
 
 .alert-error {
