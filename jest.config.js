@@ -9,6 +9,8 @@ const config = {
     '\\.(css|less|sass|scss)$': 'identity-obj-proxy',
   },
   transformIgnorePatterns: ['/node_modules/(?!deep-freeze-es6)'],
+  collectCoverage: true,
+  coverageReporters: ['json', 'html'],
 }
 
 export default config
