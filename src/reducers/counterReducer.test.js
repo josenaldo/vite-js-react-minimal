@@ -10,26 +10,43 @@ describe('counterReducer', () => {
   })
 
   it('should increment state by one when called with an increment action', () => {
-    const action = increment()
     const initialState = 0
 
-    const newState = counterReducer(initialState, action)
+    const newState = counterReducer(initialState, increment())
     expect(newState).toEqual(initialState + 1)
   })
 
   it('should decrement state by one when called with a decrement action', () => {
-    const action = decrement()
     const initialState = 0
 
-    const newState = counterReducer(initialState, action)
+    const newState = counterReducer(initialState, decrement())
     expect(newState).toEqual(initialState - 1)
   })
 
   it('should reset state to zero when called with a zero action', () => {
-    const action = zero()
     const initialState = 5
 
-    const newState = counterReducer(initialState, action)
+    const newState = counterReducer(initialState, zero())
     expect(newState).toEqual(0)
+  })
+})
+
+describe('counter actions', () => {
+  it('should return an action object with type "INCREMENT"', () => {
+    const action = increment()
+    expect(action.type).toEqual('INCREMENT')
+    expect(action.payload).toEqual(undefined)
+  })
+
+  it('should return an action object with type "DECREMENT"', () => {
+    const action = decrement()
+    expect(action.type).toEqual('DECREMENT')
+    expect(action.payload).toEqual(undefined)
+  })
+
+  it('should return an action object with type "ZERO"', () => {
+    const action = zero()
+    expect(action.type).toEqual('ZERO')
+    expect(action.payload).toEqual(undefined)
   })
 })
