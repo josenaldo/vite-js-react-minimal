@@ -1,56 +1,23 @@
-/**
- * A reducer function that handles counting actions.
- * @function
- * @param {number} state - The current count state.
- * @param {Object} action - An object that describes the action to be performed on the state.
- * @param {string} action.type - The action type. Must be either 'INCREMENT', 'DECREMENT', or 'ZERO'.
- * @returns {number} The new state value after applying the action.
- */
-const counterReducer = (state = 0, action) => {
-  switch (action.type) {
-    case 'INCREMENT':
+import { createSlice } from '@reduxjs/toolkit'
+
+const initialState = 0
+
+const counterSlice = createSlice({
+  name: 'counter',
+  initialState,
+  reducers: {
+    increment: (state) => {
       return state + 1
-    case 'DECREMENT':
+    },
+    decrement: (state) => {
       return state - 1
-    case 'ZERO':
+    },
+    // eslint-disable-next-line no-unused-vars
+    zero: (state) => {
       return 0
-    default:
-      return state
-  }
-}
+    },
+  },
+})
 
-/**
- * A function that returns an action object to decrement the count state.
- * @function
- * @returns {Object} The decrement action object.
- */
-const decrement = () => {
-  return {
-    type: 'DECREMENT',
-  }
-}
-
-/**
- * A function that returns an action object to reset the count state to zero.
- * @function
- * @returns {Object} The zero action object.
- */
-const zero = () => {
-  return {
-    type: 'ZERO',
-  }
-}
-
-/**
- * A function that returns an action object to increment the count state.
- * @function
- * @returns {Object} The increment action object.
- */
-const increment = () => {
-  return {
-    type: 'INCREMENT',
-  }
-}
-
-export { decrement, zero, increment }
-export default counterReducer
+export const { increment, decrement, zero } = counterSlice.actions
+export default counterSlice.reducer

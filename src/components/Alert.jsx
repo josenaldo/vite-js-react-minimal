@@ -1,12 +1,9 @@
 import React from 'react'
-import PropTypes from 'prop-types'
-import './Alert.css'
+import { useDispatch, useSelector } from 'react-redux'
 
-const ALERT_TYPE = {
-  SUCCESS: 'success',
-  ERROR: 'error',
-  INFO: 'info',
-}
+import { removeAlert, ALERT_TIMEOUT } from '@/reducers/alertReducer'
+
+import './Alert.css'
 
 /**
  * Component that renders a message alert.
@@ -29,42 +26,49 @@ const ALERT_TYPE = {
  * @example
  * <Alert message={{ type: 'success', content: 'The operation was successful' }} setMessage={setMessage} />
  */
-const Alert = ({ message, setMessage }) => {
+const Alert = () => {
+  const dispatch = useDispatch()
+  const alert = useSelector((state) => state.alert)
+
+  const close = () => {
+    dispatch(removeAlert())
+  }
+
   const timeoutRef = React.useRef()
 
   React.useEffect(() => {
+    if (!alert?.message) {
+      return
+    }
+
     timeoutRef.current = setTimeout(() => {
-      setMessage(null)
-    }, 10000)
+      dispatch(removeAlert())
+    }, ALERT_TIMEOUT)
 
     return () => clearTimeout(timeoutRef.current)
-  }, [message])
+  }, [alert])
 
-  const closeAlert = () => {
-    setMessage(null)
-  }
-
-  if (!message) {
+  if (!alert || !alert.message) {
     return null
   }
 
   return (
-    <div className={`alert alert-${message.type}`} role="alert">
-      <span className="close-button" onClick={closeAlert}>
+    <div className={`alert ${alert.type}`} role="alert">
+      <span className="close-button" onClick={close}>
         &times;
       </span>
-      <p className="alert-title">{message.content}</p>
-      {message.details && <p>{message.details}</p>}
-      {message.error && (
+      <p className="alert-title">{alert.message}</p>
+      {alert.details && <p>{alert.details}</p>}
+      {alert.error && (
         <ul className="details">
-          {message.error.statusCode && (
-            <li>Status code: {message.error.statusCode}</li>
+          {alert.error.statusCode && (
+            <li>Status code: {alert.error.statusCode}</li>
           )}
-          {message.error.errorMessage && (
-            <li>Message Error: {message.error.errorMessage}</li>
+          {alert.error.errorMessage && (
+            <li>Message Error: {alert.error.errorMessage}</li>
           )}
-          {message.error.errorDetails && (
-            <li>Details: {message.error.errorDetails}</li>
+          {alert.error.errorDetails && (
+            <li>Details: {alert.error.errorDetails}</li>
           )}
         </ul>
       )}
@@ -72,15 +76,4 @@ const Alert = ({ message, setMessage }) => {
   )
 }
 
-Alert.propTypes = {
-  message: PropTypes.shape({
-    type: PropTypes.oneOf(Object.values(ALERT_TYPE)).isRequired,
-    content: PropTypes.string.isRequired,
-    details: PropTypes.string,
-    error: PropTypes.object,
-  }),
-  setMessage: PropTypes.func.isRequired,
-}
-
-export { ALERT_TYPE }
 export default Alert

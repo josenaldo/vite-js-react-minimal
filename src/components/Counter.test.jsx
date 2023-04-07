@@ -1,4 +1,3 @@
-import React from 'react'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
@@ -15,7 +14,7 @@ describe('<Counter />', () => {
   let user
 
   beforeEach(() => {
-    store = mockStore(0)
+    store = mockStore({ counter: 0, notification: {} })
 
     render(
       <Provider store={store}>

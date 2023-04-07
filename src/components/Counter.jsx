@@ -2,6 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
 import { increment, decrement, zero } from '@/reducers/counterReducer'
+import { setAlert, ALERT_TYPES } from '@/reducers/alertReducer'
+
 import './Counter.css'
 
 /**
@@ -12,18 +14,36 @@ import './Counter.css'
 const Counter = () => {
   const dispatch = useDispatch()
 
-  const counter = useSelector((state) => state)
+  const counter = useSelector((state) => state.counter)
 
   const handleDecrement = () => {
     dispatch(decrement())
+    dispatch(
+      setAlert({
+        type: ALERT_TYPES.ERROR,
+        message: 'Counter decremented',
+      })
+    )
   }
 
   const handleZero = () => {
     dispatch(zero())
+    dispatch(
+      setAlert({
+        type: ALERT_TYPES.INFO,
+        message: 'Counter reset to zero',
+      })
+    )
   }
 
   const handleIncrement = () => {
     dispatch(increment())
+    dispatch(
+      setAlert({
+        type: ALERT_TYPES.SUCCESS,
+        message: 'Counter incremented',
+      })
+    )
   }
 
   return (

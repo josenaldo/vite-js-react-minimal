@@ -1,102 +1,229 @@
 import React from 'react'
-import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
+import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
-
+import { useSelector, useDispatch } from 'react-redux'
 import Alert from '@/components/Alert'
-import { ALERT_TYPE } from '@/components/Alert'
+import {
+  ALERT_TYPES,
+  removeAlert,
+  ALERT_TIMEOUT,
+} from '@/reducers/alertReducer'
+
+jest.mock('react-redux')
 
 describe('<Alert />', () => {
-  let setMessage
+  let dispatchMock
 
   beforeEach(() => {
-    setMessage = jest.fn()
+    dispatchMock = jest.fn()
+
+    useDispatch.mockReturnValue(dispatchMock)
   })
 
-  it('should render null when message prop is null', () => {
-    const { container } = render(
-      <Alert message={null} setMessage={setMessage} />
-    )
+  describe('when no alert is set ', () => {
+    beforeEach(() => {
+      useSelector.mockImplementation((selectorFn) =>
+        selectorFn({
+          alert: {
+            message: null,
+            type: null,
+          },
+        })
+      )
 
-    expect(container.firstChild).toBeNull()
+      render(<Alert />)
+    })
+
+    it('does not render when there is no alert', () => {
+      const alertElement = screen.queryByRole('alert')
+      expect(alertElement).not.toBeInTheDocument()
+    })
   })
 
-  it('should render message content and type', () => {
-    const message = {
-      type: ALERT_TYPE.SUCCESS,
-      content: 'This is a success message',
-    }
+  describe('when an alert is set', () => {
+    beforeEach(() => {
+      useSelector.mockImplementation((selectorFn) =>
+        selectorFn({
+          alert: {
+            message: 'Success Message',
+            type: ALERT_TYPES.SUCCESS,
+          },
+        })
+      )
 
-    const { container } = render(
-      <Alert message={message} setMessage={setMessage} />
-    )
+      render(<Alert />)
+    })
 
-    expect(container.firstChild).not.toBeNull()
-    expect(container.firstChild).toHaveClass('alert')
-    expect(container.firstChild).toHaveClass(`alert-${message.type}`)
+    it('dispatches removeAlert action when close button is clicked', async () => {
+      const closeButton = screen.getByText('×')
+      await userEvent.click(closeButton)
+
+      expect(dispatchMock).toHaveBeenCalledTimes(1)
+      expect(dispatchMock).toHaveBeenCalledWith(removeAlert())
+    })
+
+    it('sets a timeout to remove the alert after ALERT_TIMEOUT ms', () => {
+      jest.useFakeTimers()
+
+      render(<Alert />)
+
+      expect(dispatchMock).not.toHaveBeenCalled()
+
+      jest.advanceTimersByTime(ALERT_TIMEOUT)
+
+      expect(dispatchMock).toHaveBeenCalledTimes(1)
+      expect(dispatchMock).toHaveBeenCalledWith(removeAlert())
+
+      jest.useRealTimers()
+    })
   })
 
-  it('should calls setMessage prop when close button is clicked', async () => {
-    const message = {
-      type: ALERT_TYPE.INFO,
-      content: 'This is an info message',
-    }
+  describe('when a type of alert is set', () => {
+    it('renders success alert message and type correctly', () => {
+      useSelector.mockImplementation((selectorFn) =>
+        selectorFn({
+          alert: {
+            message: 'Success Message',
+            type: ALERT_TYPES.SUCCESS,
+          },
+        })
+      )
 
-    const { container } = render(
-      <Alert message={message} setMessage={setMessage} />
-    )
+      render(<Alert />)
 
-    const user = userEvent.setup()
-    const button = container.querySelector('.close-button')
-    await user.click(button)
+      const alertElement = screen.getByRole('alert')
 
-    expect(setMessage).toHaveBeenCalledWith(null)
+      expect(alertElement).toBeInTheDocument()
+      expect(alertElement).toHaveClass('alert-success')
+
+      const messageElement = screen.getByText('Success Message')
+      expect(messageElement).toBeInTheDocument()
+    })
+
+    it('renders alert details correctly', () => {
+      useSelector.mockImplementation((selectorFn) =>
+        selectorFn({
+          alert: {
+            message: 'Success Message',
+            type: ALERT_TYPES.SUCCESS,
+            details: 'Success Details',
+          },
+        })
+      )
+
+      render(<Alert />)
+
+      const alertElement = screen.getByRole('alert')
+
+      expect(alertElement).toBeInTheDocument()
+      expect(alertElement).toHaveClass('alert-success')
+
+      const messageElement = screen.getByText('Success Message')
+      expect(messageElement).toBeInTheDocument()
+
+      const detailsElement = screen.getByText('Success Details')
+      expect(detailsElement).toBeInTheDocument()
+    })
+
+    it('renders info alert message and type correctly', () => {
+      useSelector.mockImplementation((selectorFn) =>
+        selectorFn({
+          alert: {
+            message: 'Info Message',
+            type: ALERT_TYPES.INFO,
+          },
+        })
+      )
+
+      render(<Alert />)
+
+      const alertElement = screen.getByRole('alert')
+
+      expect(alertElement).toBeInTheDocument()
+      expect(alertElement).toHaveClass('alert-info')
+
+      const messageElement = screen.getByText('Info Message')
+      expect(messageElement).toBeInTheDocument()
+    })
+
+    it('renders warning alert message and type correctly', () => {
+      useSelector.mockImplementation((selectorFn) =>
+        selectorFn({
+          alert: {
+            message: 'Warning Message',
+            type: ALERT_TYPES.WARNING,
+          },
+        })
+      )
+
+      render(<Alert />)
+
+      const alertElement = screen.getByRole('alert')
+
+      expect(alertElement).toBeInTheDocument()
+      expect(alertElement).toHaveClass('alert-warning')
+
+      const messageElement = screen.getByText('Warning Message')
+      expect(messageElement).toBeInTheDocument()
+    })
+
+    it('renders error alert message and type correctly', () => {
+      useSelector.mockImplementation((selectorFn) =>
+        selectorFn({
+          alert: {
+            message: 'Error Message',
+            type: ALERT_TYPES.ERROR,
+          },
+        })
+      )
+
+      render(<Alert />)
+
+      const alertElement = screen.getByRole('alert')
+
+      expect(alertElement).toBeInTheDocument()
+      expect(alertElement).toHaveClass('alert-error')
+
+      const messageElement = screen.getByText('Error Message')
+      expect(messageElement).toBeInTheDocument()
+    })
+
+    it('renders error details if error object is provided', () => {
+      useSelector.mockImplementation((selectorFn) =>
+        selectorFn({
+          alert: {
+            type: ALERT_TYPES.ERROR,
+            message: 'Error Message',
+            error: {
+              statusCode: 404,
+              errorMessage: 'Page not found',
+              errorDetails: 'The requested page does not exist',
+            },
+          },
+        })
+      )
+
+      render(<Alert />)
+
+      const alertElement = screen.getByRole('alert')
+
+      expect(alertElement).toBeInTheDocument()
+      expect(alertElement).toHaveClass('alert-error')
+
+      const messageElement = screen.getByText('Error Message')
+      expect(messageElement).toBeInTheDocument()
+
+      const statusCode = screen.getByText('Status code: 404')
+      expect(statusCode).toBeInTheDocument()
+
+      const messageError = screen.getByText('Message Error: Page not found')
+      expect(messageError).toBeInTheDocument()
+
+      const errorDetails = screen.getByText(
+        'Details: The requested page does not exist'
+      )
+      expect(errorDetails).toBeInTheDocument()
+    })
   })
-
-  it('should render error details if error object is provided', () => {
-    const message = {
-      type: ALERT_TYPE.ERROR,
-      content: 'This is an error message',
-      error: {
-        statusCode: 404,
-        errorMessage: 'Page not found',
-        errorDetails: 'The requested page does not exist',
-      },
-    }
-
-    render(<Alert message={message} setMessage={setMessage} />)
-
-    const content = screen.getByText(message.content)
-    expect(content).toBeInTheDocument()
-
-    const statusCode = screen.getByText(
-      `Status code: ${message.error.statusCode}`
-    )
-    expect(statusCode).toBeInTheDocument()
-
-    const messageError = screen.getByText(
-      `Message Error: ${message.error.errorMessage}`
-    )
-    expect(messageError).toBeInTheDocument()
-
-    const errorDetails = screen.getByText(
-      `Details: ${message.error.errorDetails}`
-    )
-    expect(errorDetails).toBeInTheDocument()
-  })
-
-  it('should closes alert after 10 seconds', async () => {
-    const message = {
-      type: ALERT_TYPE.SUCCESS,
-      content: 'This is a success message',
-    }
-
-    render(<Alert message={message} setMessage={setMessage} />)
-
-    expect(screen.getByText(message.content)).toBeInTheDocument()
-
-    await new Promise((resolve) => setTimeout(resolve, 10000))
-
-    expect(setMessage).toHaveBeenCalledWith(null)
-  }, 15000)
 })

@@ -32,21 +32,21 @@ describe('counterReducer', () => {
 })
 
 describe('counter actions', () => {
-  it('should return an action object with type "INCREMENT"', () => {
+  it('should return an action object with type "counter/increment"', () => {
     const action = increment()
-    expect(action.type).toEqual('INCREMENT')
+    expect(action.type).toEqual('counter/increment')
     expect(action.payload).toEqual(undefined)
   })
 
-  it('should return an action object with type "DECREMENT"', () => {
+  it('should return an action object with type "counter/decrement"', () => {
     const action = decrement()
-    expect(action.type).toEqual('DECREMENT')
+    expect(action.type).toEqual('counter/decrement')
     expect(action.payload).toEqual(undefined)
   })
 
-  it('should return an action object with type "ZERO"', () => {
+  it('should return an action object with type "counter/zero"', () => {
     const action = zero()
-    expect(action.type).toEqual('ZERO')
+    expect(action.type).toEqual('counter/zero')
     expect(action.payload).toEqual(undefined)
   })
 })
