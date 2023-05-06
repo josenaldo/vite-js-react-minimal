@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { removeAlert, ALERT_TIMEOUT } from '@/reducers/alertReducer'
+import { removeAlert } from '@/reducers/alertReducer'
 
 import './Alert.css'
 
@@ -33,20 +33,6 @@ const Alert = () => {
   const close = () => {
     dispatch(removeAlert())
   }
-
-  const timeoutRef = React.useRef()
-
-  React.useEffect(() => {
-    if (!alert?.message) {
-      return
-    }
-
-    timeoutRef.current = setTimeout(() => {
-      dispatch(removeAlert())
-    }, ALERT_TIMEOUT)
-
-    return () => clearTimeout(timeoutRef.current)
-  }, [alert])
 
   if (!alert || !alert.message) {
     return null

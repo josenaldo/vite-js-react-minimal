@@ -1,11 +1,12 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 
-const initialState = {
+const NO_ALERT_STATE = {
   message: null,
   type: null,
+  timeoutId: null,
 }
 
-const ALERT_TIMEOUT = 5000
+const ALERT_TIMEOUT = 5
 const ALERT_TYPES = {
   SUCCESS: 'alert-success',
   INFO: 'alert-info',
@@ -13,22 +14,47 @@ const ALERT_TYPES = {
   ERROR: 'alert-error',
 }
 
+const setAlert = createAsyncThunk(
+  'alert/setAlert',
+  async (
+    { message, type = ALERT_TYPES.INFO, timeoutInSeconds = ALERT_TIMEOUT },
+    thunkAPI
+  ) => {
+    const { dispatch, getState } = thunkAPI
+    const { alert } = getState()
+
+    if (alert.timeoutId) {
+      clearTimeout(alert.timeoutId)
+    }
+
+    const timeoutId = setTimeout(() => {
+      dispatch({ type: 'alert/removeAlert' })
+    }, timeoutInSeconds * 1000)
+
+    return {
+      message: message,
+      type: type,
+      timeoutId: timeoutId,
+    }
+  }
+)
+
 const alertSlice = createSlice({
   name: 'alert',
-  initialState,
+  initialState: NO_ALERT_STATE,
   reducers: {
-    setAlert: (state, action) => {
-      state.message = action.payload.message
-      state.type = action.payload.type
-    },
-
     removeAlert: (state) => {
-      state.message = null
-      state.type = null
+      clearTimeout(state.timeoutId)
+      return NO_ALERT_STATE
+    },
+  },
+  extraReducers: {
+    [setAlert.fulfilled]: (state, action) => {
+      return action.payload
     },
   },
 })
 
-export { ALERT_TYPES, ALERT_TIMEOUT }
-export const { setAlert, removeAlert } = alertSlice.actions
+export { ALERT_TYPES, setAlert }
+export const { removeAlert } = alertSlice.actions
 export default alertSlice.reducer
