@@ -49,7 +49,7 @@ const Counter = () => {
   return (
     <div>
       <h2>Click for count!</h2>
-      <div className="count">{counter}</div>
+      <div className="count">{counter ? counter : 0}</div>
       <div className="grid">
         <button className="danger" onClick={handleDecrement}>
           Minus -

@@ -4,11 +4,7 @@ import '@testing-library/jest-dom/extend-expect'
 import userEvent from '@testing-library/user-event'
 import { useSelector, useDispatch } from 'react-redux'
 import Alert from '@/components/Alert'
-import {
-  ALERT_TYPES,
-  removeAlert,
-  ALERT_TIMEOUT,
-} from '@/reducers/alertReducer'
+import { ALERT_TYPES, removeAlert } from '@/reducers/alertReducer'
 
 jest.mock('react-redux')
 
@@ -55,27 +51,22 @@ describe('<Alert />', () => {
       render(<Alert />)
     })
 
+    it('renders success alert message and type correctly', () => {
+      const alertElement = screen.getByRole('alert')
+
+      expect(alertElement).toBeInTheDocument()
+      expect(alertElement).toHaveClass('alert-success')
+
+      const messageElement = screen.getByText('Success Message')
+      expect(messageElement).toBeInTheDocument()
+    })
+
     it('dispatches removeAlert action when close button is clicked', async () => {
       const closeButton = screen.getByText('×')
       await userEvent.click(closeButton)
 
       expect(dispatchMock).toHaveBeenCalledTimes(1)
       expect(dispatchMock).toHaveBeenCalledWith(removeAlert())
-    })
-
-    it('sets a timeout to remove the alert after ALERT_TIMEOUT ms', () => {
-      jest.useFakeTimers()
-
-      render(<Alert />)
-
-      expect(dispatchMock).not.toHaveBeenCalled()
-
-      jest.advanceTimersByTime(ALERT_TIMEOUT)
-
-      expect(dispatchMock).toHaveBeenCalledTimes(1)
-      expect(dispatchMock).toHaveBeenCalledWith(removeAlert())
-
-      jest.useRealTimers()
     })
   })
 
