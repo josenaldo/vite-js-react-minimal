@@ -1,4 +1,4 @@
-import counterReducer, { increment, decrement, zero } from './counterReducer'
+import counterReducer, { increment, decrement, zero } from './counter-reducer'
 
 describe('counterReducer', () => {
   it('should return a proper initial state when called with undefined state', () => {

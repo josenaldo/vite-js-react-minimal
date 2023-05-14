@@ -1,7 +1,7 @@
 import '@testing-library/jest-dom/extend-expect'
 import { render, screen } from '@testing-library/react'
 
-import FormattedDate from '@/components/FormattedDate'
+import FormattedDate from '@/features/ui/FormattedDate'
 
 describe('<FormattedDate />', () => {
   it('should render a <time> element', () => {

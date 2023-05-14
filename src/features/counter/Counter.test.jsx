@@ -1,28 +1,26 @@
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 
-import { configureStore } from '@reduxjs/toolkit'
-
-import { useSelector, useDispatch } from 'react-redux'
-
 import { Provider } from 'react-redux'
-import counterReducer, {
-  increment,
-  decrement,
-  zero,
-} from '@/reducers/counterReducer'
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
 
-import Counter from '@/components/Counter'
+import { counterReducer, Counter } from '@/features/counter/'
+import { alertReducer } from '@/features/alert'
 
 describe('<Counter />', () => {
   let store
   let user
+  let container
+
+  const rootReducer = combineReducers({
+    alert: alertReducer,
+    counter: counterReducer,
+  })
 
   beforeEach(() => {
-    // store = mockStore({ counter: 0, notification: {} })
-    store = configureStore({ reducer: counterReducer })
+    store = configureStore({ reducer: rootReducer })
 
-    render(
+    container = render(
       <Provider store={store}>
         <Counter />
       </Provider>
@@ -42,15 +40,19 @@ describe('<Counter />', () => {
   it('should dispatch increment action when Plus button is clicked', async () => {
     const button = screen.getByText('Plus +')
     await user.click(button)
+    expect(store.getState().counter).toBe(1)
 
-    expect(store.getState()).toBe(1)
+    const display = container.querySelector('.count')
+    expect(display).toHaveTextContent('1')
   })
 
   it('should dispatch decrement action when Minus button is clicked', async () => {
     const button = screen.getByText('Minus -')
     await user.click(button)
 
-    expect(store.getState()).toBe(-1)
+    expect(store.getState().counter).toBe(-1)
+    const display = container.querySelector('.count')
+    expect(display).toHaveTextContent('-1')
   })
 
   it('should dispatch zero action when Zero button is clicked', async () => {
@@ -62,6 +64,8 @@ describe('<Counter />', () => {
     const button = screen.getByText('Zero')
     await user.click(button)
 
-    expect(store.getState()).toBe(0)
+    expect(store.getState().counter).toBe(0)
+    const display = container.querySelector('.count')
+    expect(display).toHaveTextContent('0')
   })
 })

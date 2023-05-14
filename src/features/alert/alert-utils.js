@@ -1,19 +1,19 @@
-import { ALERT_TYPE } from 'components/Alert'
+import { ALERT_TYPES } from '@/features/alert'
 
-const HTTP_STATUS = {
+export const HTTP_STATUS = {
   NOT_FOUND: 404,
   UNAUTHORIZED: 401,
 }
 
-const ERROR_CODES = {
+export const ERROR_CODES = {
   NETWORK_ERROR: 'ERR_NETWORK',
   CANCELED: 'ERR_CANCELED',
 }
 
-const createErrorDetails = (statusCode, errorMessage, errorDetails) => {
-  console.log('statusCode', statusCode)
-  console.log('errorMessage', errorMessage)
-  console.log('errorDetails', errorDetails)
+export const createErrorDetails = (statusCode, errorMessage, errorDetails) => {
+  console.log('🔴 statusCode', statusCode)
+  console.log('🔴 errorMessage', errorMessage)
+  console.log('🔴 errorDetails', errorDetails)
 
   let details = {}
 
@@ -32,11 +32,11 @@ const createErrorDetails = (statusCode, errorMessage, errorDetails) => {
   return details
 }
 
-const handleAxiosError = (error, content) => {
+export const handleAxiosError = (error, message, details = null) => {
   if (error === null) {
     return {
-      type: ALERT_TYPE.ERROR,
-      content,
+      type: ALERT_TYPES.ERROR,
+      message: message,
       error: {
         messageError: 'Error is null',
       },
@@ -73,12 +73,11 @@ const handleAxiosError = (error, content) => {
   }
 
   const errorObject = createErrorDetails(statusCode, errorMessage, errorDetails)
-  console.log('errorObject', errorObject)
+
   return {
-    type: ALERT_TYPE.ERROR,
-    content,
+    type: ALERT_TYPES.ERROR,
+    message: message,
+    details: details,
     error: errorObject,
   }
 }
-
-export default { handleAxiosError }

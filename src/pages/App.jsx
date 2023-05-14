@@ -1,8 +1,8 @@
 import React from 'react'
 
-import Counter from '@/components/Counter'
-import Togglable from '@/components/Togglable'
-import Alert from '@/components/Alert'
+import { Togglable } from '@/features/ui'
+import { Alert } from '@/features/alert'
+import { Counter } from '@/features/counter'
 
 import './App.css'
 

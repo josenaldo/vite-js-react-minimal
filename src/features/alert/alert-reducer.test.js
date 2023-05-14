@@ -1,10 +1,13 @@
 import { combineReducers } from 'redux'
 import { configureStore } from '@reduxjs/toolkit'
+
 import alertReducer, {
   setAlert,
-  ALERT_TYPES,
+  setErrorAlert,
   removeAlert,
-} from '@/reducers/alertReducer'
+} from '@/features/alert/alert-reducer'
+
+import { ALERT_TYPES } from '@/features/alert'
 
 const rootReducer = combineReducers({
   alert: alertReducer,
@@ -42,6 +45,23 @@ describe('alertSlice reducer', () => {
     expect(alert.timeoutId).toEqual(expect.any(Number))
   })
 
+  it('should set error alert', async () => {
+    const message = 'Test alert message'
+    const details = 'Test alert detail'
+    const error = new Error(details)
+
+    await store.dispatch(setErrorAlert({ message, details, error }))
+    const { alert } = store.getState()
+
+    expect(alert.message).toEqual(message)
+    expect(alert.type).toEqual(ALERT_TYPES.ERROR)
+    expect(alert.timeoutId).toEqual(expect.any(Number))
+    expect(alert.details).toEqual(details)
+    expect(alert.error).toEqual({
+      errorMessage: 'Test alert detail',
+    })
+  })
+
   it('should remove alert', async () => {
     const message = 'Test alert message'
     const type = ALERT_TYPES.SUCCESS
@@ -56,9 +76,11 @@ describe('alertSlice reducer', () => {
 
     store.dispatch(removeAlert())
     expect(store.getState().alert).toEqual({
+      details: null,
+      error: null,
       message: null,
-      type: null,
       timeoutId: null,
+      type: null,
     })
   })
 
@@ -78,9 +100,11 @@ describe('alertSlice reducer', () => {
     return new Promise((resolve) => {
       setTimeout(() => {
         expect(store.getState().alert).toEqual({
+          details: null,
+          error: null,
           message: null,
-          type: null,
           timeoutId: null,
+          type: null,
         })
         resolve()
       }, timeoutInSeconds * 1000 + 100)

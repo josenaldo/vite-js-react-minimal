@@ -1,7 +1,7 @@
 import { configureStore } from '@reduxjs/toolkit'
 
-import counterReducer from '@/reducers/counterReducer'
-import alertReducer from '@/reducers/alertReducer'
+import { counterReducer } from '@/features/counter'
+import { alertReducer } from '@/features/alert'
 
 const store = configureStore({
   reducer: {
