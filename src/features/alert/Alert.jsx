@@ -1,9 +1,9 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 
-import { removeAlert } from '@/features/alert/alert-reducer'
+import { ALERT_TYPES, removeAlert } from '@/features/alert'
 
-import './Alert.css'
+import styles from './Alert.module.css'
 
 /**
  * A component that displays an alert message.
@@ -11,6 +11,14 @@ import './Alert.css'
  * @function Alert
  * @returns {JSX.Element|null} The alert component or null if there is no alert to display.
  */
+
+const alertStyleMap = {
+  [ALERT_TYPES.ERROR]: styles.alertError,
+  [ALERT_TYPES.WARNING]: styles.alertWarning,
+  [ALERT_TYPES.SUCCESS]: styles.alertSuccess,
+  [ALERT_TYPES.INFO]: styles.alertInfo,
+}
+
 const Alert = () => {
   const dispatch = useDispatch()
   const alert = useSelector((state) => state.alert)
@@ -23,15 +31,27 @@ const Alert = () => {
     return null
   }
 
+  const selectAlertType = (type) => {
+    const alertType = alertStyleMap[type]
+
+    console.log('🔴 AlertType', alertType)
+    return alertType
+  }
+
   return (
-    <div className={`alert ${alert.type}`} role="alert">
-      <span className="close-button" onClick={close}>
+    <div
+      className={`${styles.alert} ${selectAlertType(alert.type)}`}
+      role="alert"
+    >
+      <span className={styles.closeButton} onClick={close}>
         &times;
       </span>
-      <p className="alert-title">{alert.message}</p>
+
+      <p className={styles.alertTitle}>{alert.message}</p>
+
       {alert.details && <p>{alert.details}</p>}
       {alert.error && (
-        <ul className="details">
+        <ul className={styles.details}>
           {alert.error.statusCode && (
             <li>Status code: {alert.error.statusCode}</li>
           )}

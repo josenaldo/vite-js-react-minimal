@@ -3,8 +3,7 @@ import React from 'react'
 import { increment, decrement, zero } from '@/features/counter'
 
 import { CounterButton, CounterDisplay } from '@/features/counter'
-
-import './Counter.css'
+import { ALERT_TYPES } from '@/features/alert'
 
 /**
  * A counter component that increments and decrements a number
@@ -22,19 +21,22 @@ const Counter = () => {
           action={decrement}
           message="Counter decremented"
           text="Minus -"
-          className="danger"
+          type={ALERT_TYPES.ERROR}
+          details="The counter was decremented by 1."
         />
         <CounterButton
           action={zero}
           message="Counter reset to zero"
           text="Zero"
-          className="info"
+          type={ALERT_TYPES.INFO}
+          details="The counter was reset to zero."
         />
         <CounterButton
           action={increment}
           message="Counter incremented"
           text="Plus +"
-          className="success"
+          type={ALERT_TYPES.SUCCESS}
+          details="The counter was incremented by 1."
         />
       </div>
     </div>

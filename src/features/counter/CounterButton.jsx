@@ -1,7 +1,20 @@
 import { useDispatch } from 'react-redux'
 import { ALERT_TYPES, setAlert } from '@/features/alert'
 
-const CounterButton = ({ action, message, text, className }) => {
+const alertStyleMap = {
+  [ALERT_TYPES.ERROR]: 'danger',
+  [ALERT_TYPES.WARNING]: 'warning',
+  [ALERT_TYPES.SUCCESS]: 'success',
+  [ALERT_TYPES.INFO]: 'info',
+}
+
+const CounterButton = ({
+  action,
+  message,
+  details,
+  text,
+  type = ALERT_TYPES.SUCCESS,
+}) => {
   const dispatch = useDispatch()
 
   const dispatchCounter = () => {
@@ -9,14 +22,16 @@ const CounterButton = ({ action, message, text, className }) => {
 
     dispatch(
       setAlert({
-        type: ALERT_TYPES.SUCCESS,
+        type: type,
         message: message,
+        timeoutInSeconds: 20,
+        details: details,
       })
     )
   }
 
   return (
-    <button className={className} onClick={dispatchCounter}>
+    <button className={alertStyleMap[type]} onClick={dispatchCounter}>
       {text}
     </button>
   )
