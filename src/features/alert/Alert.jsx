@@ -34,7 +34,6 @@ const Alert = () => {
   const selectAlertType = (type) => {
     const alertType = alertStyleMap[type]
 
-    console.log('🔴 AlertType', alertType)
     return alertType
   }
 

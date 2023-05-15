@@ -11,10 +11,6 @@ export const ERROR_CODES = {
 }
 
 export const createErrorDetails = (statusCode, errorMessage, errorDetails) => {
-  console.log('🔴 statusCode', statusCode)
-  console.log('🔴 errorMessage', errorMessage)
-  console.log('🔴 errorDetails', errorDetails)
-
   let details = {}
 
   if (statusCode) {
