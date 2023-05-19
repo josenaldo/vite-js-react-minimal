@@ -38,30 +38,30 @@ const Alert = () => {
   }
 
   return (
-    <div
-      className={`${styles.alert} ${selectAlertType(alert.type)}`}
-      role="alert"
-    >
-      <span className={styles.closeButton} onClick={close}>
-        &times;
-      </span>
-
-      <p className={styles.alertTitle}>{alert.message}</p>
-
-      {alert.details && <p>{alert.details}</p>}
-      {alert.error && (
-        <ul className={styles.details}>
-          {alert.error.statusCode && (
-            <li>Status code: {alert.error.statusCode}</li>
-          )}
-          {alert.error.errorMessage && (
-            <li>Message Error: {alert.error.errorMessage}</li>
-          )}
-          {alert.error.errorDetails && (
-            <li>Details: {alert.error.errorDetails}</li>
-          )}
-        </ul>
-      )}
+    <div className="container">
+      <div
+        className={`${styles.alert} ${selectAlertType(alert.type)}`}
+        role="alert"
+      >
+        <span className={styles.closeButton} onClick={close}>
+          &times;
+        </span>
+        <p className={styles.alertTitle}>{alert.message}</p>
+        {alert.details && <p>{alert.details}</p>}
+        {alert.error && (
+          <ul className={styles.details}>
+            {alert.error.statusCode && (
+              <li>Status code: {alert.error.statusCode}</li>
+            )}
+            {alert.error.errorMessage && (
+              <li>Message Error: {alert.error.errorMessage}</li>
+            )}
+            {alert.error.errorDetails && (
+              <li>Details: {alert.error.errorDetails}</li>
+            )}
+          </ul>
+        )}
+      </div>
     </div>
   )
 }

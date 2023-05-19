@@ -1,0 +1,80 @@
+.closeButton {
+  margin-left: 15px;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closeButton:hover {
+  color: rgba(0, 0, 0, 0.5) !important;
+  transform: scale(1.2) !important;
+  transition: 0.3s;
+}
+
+.closeButton:focus {
+  outline: none;
+}
+
+.closeButton:active {
+  transition: 0.3s;
+  transform: scale(0.9) !important;
+}
+
+.notificationTitle {
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.notification {
+  padding: 1rem 1rem;
+  border-radius: 0.25rem;
+  margin-bottom: 1rem;
+}
+
+.notification p {
+  margin: 0;
+}
+
+.notification p.details {
+  font-size: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.notificationInfo {
+  background-color: var(--info-background);
+}
+.notificationInfo p,
+.notificationInfo span,
+.notificationInfo li {
+  color: var(--info-text) !important;
+}
+
+.notificationSuccess {
+  background-color: var(--success-background);
+}
+.notificationSuccess p,
+.notificationSuccess span,
+.notificationSuccess li {
+  color: var(--success-text) !important;
+}
+
+.notificationWarning {
+  background-color: var(--warning-background);
+}
+.notificationWarning p,
+.notificationWarning span,
+.notificationWarning li {
+  color: var(--warning-text) !important;
+}
+
+.notificationError {
+  background-color: var(--danger-background);
+}
+.notificationError p,
+.notificationError span,
+.notificationError li {
+  color: var(--danger-text) !important;
+}

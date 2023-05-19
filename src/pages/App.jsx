@@ -1,25 +1,18 @@
-import React from 'react'
+import { Route, Routes } from 'react-router-dom'
 
-import { Togglable } from '@/features/ui'
-import { Alert } from '@/features/alert'
-import { Counter } from '@/features/counter'
+import { Template } from '@/features/layout'
+import AboutPage from '@/pages/AboutPage'
+import HomePage from '@/pages/HomePage'
 
-import './App.css'
-
-const App = () => {
+const IndexPage = () => {
   return (
-    <div className="container">
-      <main>
-        <Alert />
-
-        <h1>Counter</h1>
-
-        <Togglable buttonLabel="Open">
-          <Counter />
-        </Togglable>
-      </main>
-    </div>
+    <Template>
+      <Routes>
+        <Route path="/" element={<HomePage />} />
+        <Route path="/about" element={<AboutPage />} />
+      </Routes>
+    </Template>
   )
 }
 
-export default App
+export default IndexPage

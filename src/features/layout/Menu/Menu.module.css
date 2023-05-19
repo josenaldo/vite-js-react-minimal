@@ -1,0 +1,13 @@
+.menu {
+  display: flex;
+  flex-direction: row;
+  align-items: flex-start;
+  justify-self: start;
+  gap: 2em;
+}
+
+.menuWrapper {
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  background-color: rgba(0, 0, 0, 0.1);
+}
