@@ -43,32 +43,32 @@ const Notification = () => {
   }
 
   return (
-    <div
-      className={`${styles.notification} ${selectNotificationType(
-        notification.type
-      )}`}
-      role="notification"
-    >
-      <span className={styles.closeButton} onClick={close}>
-        &times;
-      </span>
-
-      <p className={styles.notificationTitle}>{notification.message}</p>
-
-      {notification.details && <p>{notification.details}</p>}
-      {notification.error && (
-        <ul className={styles.details}>
-          {notification.error.statusCode && (
-            <li>Status code: {notification.error.statusCode}</li>
-          )}
-          {notification.error.errorMessage && (
-            <li>Message Error: {notification.error.errorMessage}</li>
-          )}
-          {notification.error.errorDetails && (
-            <li>Details: {notification.error.errorDetails}</li>
-          )}
-        </ul>
-      )}
+    <div className="container">
+      <div
+        className={`${styles.notification} ${selectNotificationType(
+          notification.type
+        )}`}
+        role="notification"
+      >
+        <span className={styles.closeButton} onClick={close}>
+          &times;
+        </span>
+        <p className={styles.notificationTitle}>{notification.message}</p>
+        {notification.details && <p>{notification.details}</p>}
+        {notification.error && (
+          <ul className={styles.details}>
+            {notification.error.statusCode && (
+              <li>Status code: {notification.error.statusCode}</li>
+            )}
+            {notification.error.errorMessage && (
+              <li>Message Error: {notification.error.errorMessage}</li>
+            )}
+            {notification.error.errorDetails && (
+              <li>Details: {notification.error.errorDetails}</li>
+            )}
+          </ul>
+        )}
+      </div>
     </div>
   )
 }

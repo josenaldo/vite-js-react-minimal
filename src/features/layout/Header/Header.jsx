@@ -8,7 +8,7 @@ const Header = () => {
     <header className={styles.header}>
       <div className="container">
         <Link to="/" className={styles.link}>
-          <h1>{appConfig.application.name}l</h1>
+          <h1>{appConfig.application.name}</h1>
         </Link>
       </div>
     </header>
